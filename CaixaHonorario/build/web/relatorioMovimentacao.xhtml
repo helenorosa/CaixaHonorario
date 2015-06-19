@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+    <ui:composition template="template.xhtml">
+        <ui:define name="conteudo">   
+            <div class="container">
+              <p:panel header="Relatório Movimentação">
+                 
+                  <h:form>
+                                  
+                    <h:panelGrid columns="2">
+                        
+                        <h:outputLabel value="Ano inicial:"/>
+                        <p:inputText 
+                            value="#{automovelController.anoInicial}" />
+                        
+                        <h:outputLabel value="Ano final:"/>
+                        <p:inputText 
+                            value="#{automovelController.anoFinal}"/>
+                        
+                    </h:panelGrid>
+                    
+                    <p:commandButton 
+                        value="Listar"
+                        actionListener="#{automovelController.consultar()}"
+                        update="@form"/>
+                    
+                    <p:commandButton value="PDF" ajax="false" actionListener="#{movimentacaoManagedBean.pdf()}" />
+                    <p:commandButton value="Excel"/>
+                    
+                    <br/> <br/>
+                    
+                    <p:dataTable 
+                        value="#{movimentacaoManagedBean.movimentacao}"
+                        emptyMessage="Nenhum registro encontrado."
+                        var="a">
+                        
+                        <p:dataTable 
+                           value="#{movimentacaoManagedBean.movimentacao}"
+                        emptyMessage="Nenhum registro encontrado."
+                        var="m">
+                        
+                        <p:column headerText="Código">
+                            #{movimentacaoManagedBean.movimentacao.idMovimentacao}
+                        </p:column>
+                        
+                         <p:column headerText="Ano">
+                            #{movimentacaoManagedBean.movimentacao.numeroAtendimento}
+                        </p:column>
+                        
+                        <p:column headerText="Modelo">
+                            #{movimentacaoManagedBean.movimentacao.data}
+                        </p:column>
+                        
+                        <p:column headerText="Cor">
+                            #{movimentacaoManagedBean.movimentacao.pessoa}
+                        </p:column>
+                        
+                         <p:column headerText="Combustivel">
+                            #{movimentacaoManagedBean.movimentacao.cirurgia}
+                        </p:column>
+                        
+                    </p:dataTable>
+              
+                  </h:form>
+                  
+              </p:panel>
+            </div>
+        </ui:define>
+    </ui:composition>
+</html>

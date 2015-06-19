@@ -1,0 +1,202 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:pe="http://primefaces.org/ui/extensions"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="template.xhtml">
+        <ui:define name="conteudo">   
+            <div class="container">
+                <h:form id="formCirurgia">
+                    <p:panel header="Lançamentos de Cirurgia" id="painelHonorario">
+                        <p:growl/>
+
+                        <h:inputHidden value="#{movimentacaoManagedBean.movimentacao.idMovimentacao}"/>
+                        <div class="row">
+                            <div class="form-group">
+                                <label>Nº Atendimento</label><br/>
+                                <p:inputMask styleClass="form-control" size="9" value="#{movimentacaoManagedBean.movimentacao.numeroAtendimento}" mask="999999"/>
+                            </div>
+                            <div class="form-group">
+                                <label>Data</label><br/>
+                                <p:calendar pattern="dd-MM-yyyy" mask="true" size="9" value="#{movimentacaoManagedBean.movimentacao.data}" />
+                            </div>
+
+                            <div class="form-group" style="width: 245px">
+                                <label>Nome Paciente</label><br/>
+                                <p:autoComplete id="dd" 
+                                                dropdown="true"
+                                                size="28"
+                                                value="#{movimentacaoManagedBean.movimentacao.pessoa}"
+                                                completeMethod="#{pessoaManagedBean.getListaPessoaPorNome}"
+                                                var="pessoa"
+                                                converter="pessoaConverter"
+                                                itemLabel="#{pessoa.nome}"
+                                                itemValue="#{pessoa}"/>
+                            </div>
+                            <div class="form-group" style="width: 230px">
+                                <label>Cirurgia Realizada </label><br/>
+                                <p:autoComplete id="dd2" 
+                                                dropdown="true"
+                                                size="25"
+                                                value="#{movimentacaoManagedBean.movimentacao.cirurgia}"
+                                                completeMethod="#{cirurgiaManagedBean.getListaCirurgiaPorNome(nomeCirurgia)}"
+                                                var="cirurgia"
+                                                converter="cirurgiaConverter"
+                                                itemLabel="#{cirurgia.descricao}"
+                                                itemValue="#{cirurgia}"/>
+                            </div>
+                            <div class="form-group">
+                                <label>Add</label><br/>
+                                <p:commandButton  icon="ui-icon-plusthick" 
+                                                  type="button"
+                                                  title="Adicionar Participante Cirurgia"
+                                                  onclick="PF('dlg3').show();" /> 
+                            </div>
+                            <div class="form-group">
+                                <p:commandButton
+                                    icon="ui-icon-disk" 
+                                    title="Salvar"
+                                    value="Salvar"
+                                    actionListener="#{movimentacaoManagedBean.salvar()}"
+                                    style="margin: 20px 0px 0px 6px;"
+                                    update="painelHonorario, :formTabela:painelTabela"/> 
+                            </div>
+                        </div>
+                    </p:panel>   
+                </h:form>
+                <h:form id="formTabela">
+
+                    <p:growl/>
+
+                    <p:panel header="Pagamentos a Receber" id="painelTabela">                 
+                        <p:dataTable paginator="true"
+                                     rows="10"
+                                     rowKey="m.idMovimentacao"
+                                     selection="#{movimentacaoManagedBean.movimentacao.idMovimentacao}"
+                                     id="tabelaHonorario"
+                                     emptyMessage="Nenhum Honorário Cadastrado"
+                                     var="m"
+                                     value="#{movimentacaoManagedBean.listaMovimentacoes}"
+                                     >
+
+                            <p:column headerText="Código" style="width: 60px; text-align: center">
+                                #{m.idMovimentacao}
+                            </p:column>
+                            <p:column headerText="Atendimento" style="width: 100px; text-align: center">
+                                #{m.numeroAtendimento}
+                            </p:column>
+                            <p:column headerText="Data" style="width: 100px;text-align: center">
+                                <h:outputText value="#{m.data}">  
+                                    <f:convertDateTime pattern="dd/MM/yyyy" />  
+                                </h:outputText>  
+
+                            </p:column>
+                            <p:column headerText="Paciente">
+                                #{m.pessoa.nome}
+                            </p:column>
+                            <p:column headerText="Cirurgia">
+                                #{m.cirurgia.descricao}
+                            </p:column>
+                            <p:column headerText="Valor Total" style="width: 110px">
+                                <h:outputText value="#{m.valor}">
+                                    <f:convertNumber type="number" groupingUsed="true"  minFractionDigits="2" pattern="R$#0.00"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column  headerText="Excluir"  style="width: 70px;">
+                                <div class="form-button">
+                                        <p:column  headerText="Excluir"  style="width: 70px;">
+                                        <p:commandButton icon="ui-icon-close"
+                                                         class="form-button-center"
+                                                         actionListener="#{movimentacaoManagedBean.excluir(m)}"
+                                                         update="formTabela:painelTabela">
+                                        </p:commandButton>
+                                            
+                                    </p:column>
+                                </div>
+                            </p:column>
+                            <p:column  headerText="Imprimir"  style="width: 70px;">
+                                <div class="form-button">
+                                    <p:commandButton icon="ui-icon-print">
+                                        
+                                    </p:commandButton>
+                                </div>
+                            </p:column>
+                        </p:dataTable>
+                    </p:panel>
+                </h:form>
+                
+                <p:dialog header="Adcionar Médicos" widgetVar="dlg3" showEffect="explode"  width="700" height="450">
+                    <h:form id="formMedico">
+                        <p:panel header="Honorários Médicos" id="painelMedico">
+                            <p:growl/>
+
+
+                            <div class="row">
+                                <div class="form-group" style="width: 225px">
+                                    <label>Nome Colaborador</label><br/>
+                                    <p:autoComplete id="ddd" 
+                                                    dropdown="true"
+                                                    size="25"
+                                                    value="#{movimentacaoManagedBean.pagamento.colaborador}"
+                                                    completeMethod="#{colaboradorManagedBean.getListaColaboradorPorNome(nomeColaborador)}"
+                                                    var="colaborador"
+                                                    converter="colaboradorConverter"
+                                                    itemLabel="#{colaborador.nome}"
+                                                    itemValue="#{colaborador}"/>
+                                </div>
+                                <div class="form-group">
+                                    <label>Valor:</label>
+                                    <pe:inputNumber styleClass="form-control"
+                                                    symbol="R$ "
+                                                    style="margin-left: -12px; margin-top: -5px;"
+                                                    thousandSeparator="."
+                                                    decimalSeparator=","
+                                                    value="#{movimentacaoManagedBean.pagamento.valor}"
+                                                    />
+                                </div>
+                                <div class="form-group">
+                                    <p:commandButton
+                                        icon="ui-icon-disk" 
+                                        title="Salvar"
+                                        value="Salvar"
+                                        actionListener="#{movimentacaoManagedBean.adicionar()}"
+                                        style="margin: 20px 0px 0px -3px;"
+                                        update="painelMedico, :formTabelaMedico:painelTabelaMedico"/> 
+                                </div>
+                            </div>
+                        </p:panel>   
+                    </h:form>
+
+                    <h:form id="formTabelaMedico">
+                        <p:growl/>
+                        <p:panel header="Honorários Lançados" id="painelTabelaMedico">                 
+                            <p:dataTable paginator="true"
+                                         rows="8"
+                                         id="tabelaMedico"
+                                         emptyMessage="Nenhuma Honorario"
+                                         var="p"
+                                         value="#{movimentacaoManagedBean.movimentacao.pagamentos}">
+
+                                <p:column headerText="Participantes Cirurgia">
+                                    #{p.colaborador.nome}
+                                </p:column>
+                                <p:column headerText="Valor" style="width: 110px">
+                                    <h:outputText value="#{p.valor}">
+                                        <f:convertNumber type="number"
+                                                         minFractionDigits="2"
+                                                         maxFractionDigits="2"
+                                                         pattern="R$# 0.00"/>
+                                    </h:outputText>
+                                </p:column>
+                            </p:dataTable>
+                        </p:panel>
+                    </h:form>
+                </p:dialog>
+            </div>
+        </ui:define>
+    </ui:composition>
+</html>

@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>HVC-CAIXA HONORARIOS</title>
+        <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon"/>
+        <!--        <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,500,700,900' rel='stylesheet' type='text/css'/>-->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="stylesheet" type="text/css" href="#{request.contextPath}/css/theme.css"/>
+        <link rel="stylesheet" type="text/css" href="#{request.contextPath}/css/button.css"/>
+    </h:head>
+    <h:body>
+<!--        <p:ajaxStatus
+            onstart="PF('statusDialog').show();"
+            onsuccess="PF('statusDialog').hide();"/>-->
+        
+        
+        <nav class="header-menu">
+            <h:form>
+                <div class="container">
+<!--                    <a class="navbar-brand" href="index.jsf">
+                        <img src="img/logo.png" width="70%"/>
+                    </a>-->
+                    <div class="collapse navbar-collapse">
+                        <p:menubar>
+                            <p:submenu label="Caixa" icon="ui-icon-check">
+                                <p:menuitem value="Honorários" url="movimentacao.jsf" icon="ui-icon-clipboard" />
+                                <p:menuitem value="Listar" url="relatorioMovimentacao.jsf" icon="ui-icon-check" />
+                            </p:submenu>
+
+                            <p:submenu label="Cadastros" icon="ui-icon-plusthick">
+                                <p:menuitem value="Cirurgias" url="cirurgia.jsf" icon="ui-icon-scissors" />
+                                <p:menuitem value="Colaborador" url="colaborador.jsf" icon="ui-icon-person" />
+                                <p:menuitem value="Especialidade" url="especialidade.jsf" icon="ui-icon-star" />
+                                <p:menuitem value="Função" url="funcao.jsf" icon="ui-icon-gear" />
+                                <p:menuitem value="Pacientes" url="pessoa.jsf" icon="ui-icon-person" />
+                            </p:submenu>
+
+                            <p:submenu label="Relatórios" icon="ui-icon-document">
+                                <p:menuitem value="Caixa" url="#" icon="ui-icon-document" />
+                                <p:menuitem value="Medico" url="#" icon="ui-icon-document" />
+                            </p:submenu>
+                            <p:menuitem value="Sair" url="index.jsf" icon="ui-icon-close" />
+                        </p:menubar>
+                    </div>
+                </div>
+            </h:form>
+        </nav>
+        <ui:insert name="conteudo" />
+
+    </h:body>
+</html>

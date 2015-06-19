@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html">
+    <h:head>
+        <title>HVC-CAIXA HONORARIOS</title>
+        <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon"/>
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
+        <link rel="stylesheet" type="text/css" href="#{request.contextPath}/css/button.css"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
+        <link rel="stylesheet" type="text/css" href="#{request.contextPath}/css/button.css"/>
+    </h:head>
+    <h:body>
+        <div class="header">
+
+        </div>
+        <div class="container">
+            <div class="form-login">
+                <img src="img/topo.png"/>
+                <h:form id="loginform"
+                        class="form-signin">
+
+                    <h:inputText id="nome" value="" styleClass="form-control" />     
+                    <h:inputSecret id="senha" value="" styleClass="form-control" />
+
+                    <a style="width: 120px;" href="javascript: doLogin();" class="button" onclick="this.blur();">
+                        <span><center>Entrar</center></span>
+                    </a>
+                </h:form>
+                <img src="img/rodape.png"/>
+            </div>
+        </div>
+    </h:body>
+</html>
+

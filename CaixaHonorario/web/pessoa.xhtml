@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+    <ui:composition template="template.xhtml">
+        <ui:define name="conteudo">   
+            <div class="container">
+
+                <h:form id="formPacientes">
+
+                    <p:panel header="Cadastro de Pacientes" id="painelPacientes">
+                        <p:growl/>
+
+                        <h:inputHidden value="#{pessoaManagedBean.pessoa.idPessoa}"/>
+                        <div class="row">
+                            <div class="form-group">
+                                <label>Nome:</label>
+                                <p:inputText styleClass="form-control" value="#{pessoaManagedBean.pessoa.nome}"/>
+                            </div>
+                            <div class="form-group">
+                                <label>CPF:</label>
+                                <p:inputMask styleClass="form-control" value="#{pessoaManagedBean.pessoa.cpf}" mask="999.999.999-99"/>
+                            </div>
+                            <div class="form-group">
+                                <label>RG:</label>
+                                <p:inputText styleClass="form-control" value="#{pessoaManagedBean.pessoa.rg}"/>
+                            </div>
+                            <div class="form-group">
+                                <label>Endereço:</label>
+                                <p:inputText styleClass="form-control" value="#{pessoaManagedBean.pessoa.endereco}"/>
+                            </div>
+                            <div class="form-group">
+                                <p:commandButton
+                                    value="Salvar" 
+                                    icon="ui-icon-disk" 
+                                    actionListener="#{pessoaManagedBean.salvar()}"
+                                    style="margin: 22px 0px 0px 6px;"
+                                    update="painelPacientes, :formTabela:painelTabela"/> 
+                            </div>
+
+                        </div>
+                    </p:panel>   
+                </h:form>
+
+                <h:form id="formTabela">
+
+                    <p:growl/>
+
+                    <p:panel header="Pacientes Cadastrados" id="painelTabela">                 
+                        <p:dataTable paginator="true"
+                                     rows="10"
+                                     id="tabelaPacientes"
+                                     emptyMessage="Nenhum Paciente Cadastrado"
+                                     var="p"
+                                     value="#{pessoaManagedBean.listaPessoa}">
+
+                            <p:column headerText="Código" style="width: 60px; text-align: center">
+                                #{p.idPessoa}
+                            </p:column>
+                            <p:column headerText="Nome">
+                                #{p.nome}
+                            </p:column>
+                            <p:column headerText="CPF" style="width: 140px; text-align: center">
+                                #{p.cpf}
+                            </p:column>
+                            <p:column headerText="RG" style="width: 120px;" >
+                                #{p.rg}
+                            </p:column>
+                            <p:column headerText="Endereço">
+                                #{p.endereco}
+                            </p:column > 
+                            <p:column headerText="Editar" style="width: 55px">
+                                <p:commandButton icon="ui-icon-pencil" 
+                                                 class="form-button-center"
+                                                 actionListener="#{pessoaManagedBean.editar(p)}"
+                                                 update=":formPacientes:painelPacientes">
+                                </p:commandButton>
+                            </p:column>
+                            <p:column  headerText="Excluir"  style="width: 55px;">
+                                <p:commandButton icon="ui-icon-close"
+                                                 class="form-button-center"
+                                                 actionListener="#{pessoaManagedBean.excluir(p)}"
+                                                 update="formTabela:painelTabela">
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+
+                    </p:panel>
+                </h:form>
+            </div>
+        </ui:define>
+    </ui:composition>
+</html>

@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+    <ui:composition template="template.xhtml">
+        <ui:define name="conteudo">   
+            <div class="container">
+                <h:form id="formEspecialidade">
+                    <p:panel header="Cadastro de Especialidades" id="painelEspecialidade">
+                        <p:growl/>
+
+                        <h:inputHidden value="#{especialidadeManagedBean.especialidade.idEspecialidade}"/>
+                        <div class="row">
+                            <div class="form-group">
+                                <label>Especialidade:</label>
+                                <p:inputText styleClass="form-control" value="#{especialidadeManagedBean.especialidade.descricao}"/>
+                            </div>
+                            <div class="form-group">
+                                <p:commandButton
+                                    value="Salvar" 
+                                    icon="ui-icon-disk" 
+                                    actionListener="#{especialidadeManagedBean.salvar()}"
+                                    style="margin: 22px 0px 0px 6px;"
+                                    update="painelEspecialidade, :formTabela:painelTabela"/> 
+                            </div>
+                        </div>
+                    </p:panel>   
+                </h:form>
+                <h:form id="formTabela">
+
+                    <p:growl/>
+
+                    <p:panel header="Especialidades Cadastradas" id="painelTabela">                 
+                        <p:dataTable paginator="true"
+                                     rows="10"
+                                     id="tabelaEspecialidade"
+                                     emptyMessage="Nenhuma Especialidade Cadastrada"
+                                     var="e"
+                                     value="#{especialidadeManagedBean.listaEspecialidade}">
+
+                            <p:column headerText="Código"  style="width: 60px; text-align: center">
+                                #{e.idEspecialidade}
+                            </p:column>
+                            <p:column headerText="Especialidades">
+                                #{e.descricao}
+                            </p:column>
+                            <p:column headerText="Editar" style="width: 55px;">  
+                                    <p:commandButton icon="ui-icon-pencil" 
+                                                      class="form-button-center"
+                                                     actionListener="#{especialidadeManagedBean.editar(e)}"
+                                                     update=":formEspecialidade:painelEspecialidade">
+                                    </p:commandButton>
+                            </p:column>
+                            <p:column  headerText="Excluir" style="width: 55px;">
+                                <p:commandButton icon="ui-icon-close"
+                                                 class="form-button-center"
+                                                 actionListener="#{especialidadeManagedBean.excluir(e)}"
+                                                 update="formTabela:painelTabela">
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+                    </p:panel>
+                </h:form>
+
+            </div>
+        </ui:define>
+    </ui:composition>
+</html>
